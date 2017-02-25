@@ -62,7 +62,7 @@ public class Kreis implements Shape {
     }
 
     @Override
-    public void updateValues(final JTextArea[] textAreas) {
+    public void updateValues(JTextArea[] textAreas) {
         radius = Double.parseDouble(textAreas[0].getText());
         durchmesser = Double.parseDouble(textAreas[1].getText());
         umfang = Double.parseDouble(textAreas[2].getText());
@@ -80,5 +80,10 @@ public class Kreis implements Shape {
         durchmesser = 0;
         umfang = 0;
         inhalt = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "{Radius: " + radius + ", Durchmesser: " + durchmesser + ", Umfang: " + umfang + ", Inhalt: " + inhalt + "}";
     }
 }
