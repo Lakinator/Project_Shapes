@@ -114,7 +114,7 @@ public class Dreieck implements Shape {
     }
 
     @Override
-    public void updateValues(final JTextArea[] textAreas) {
+    public void updateValues(JTextArea[] textAreas) {
         a = Double.parseDouble(textAreas[0].getText());
         b = Double.parseDouble(textAreas[1].getText());
         c = Double.parseDouble(textAreas[2].getText());
@@ -136,5 +136,10 @@ public class Dreieck implements Shape {
         alpha = 0;
         beta = 0;
         gamma = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "{Seite a: " + a + ", Seite b: " + b + ", Seite c: " + c + ", Alpha: " + alpha + ", Beta: " + beta + ", Gamma: " + gamma + "}";
     }
 }
