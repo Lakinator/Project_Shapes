@@ -56,7 +56,7 @@ public class Window extends JFrame{
      */
     private JMenuBar bar;
     private JMenu[] menus = new JMenu[2];
-    private JMenuItem[] items = new JMenuItem[3];
+    private JMenuItem[] items = new JMenuItem[4];
 
 
 
@@ -116,17 +116,20 @@ public class Window extends JFrame{
 
             //Menu
             bar = new JMenuBar();
-            menus[0] = new JMenu("Shape");
+            menus[0] = new JMenu("File");
             menus[1] = new JMenu("Settings");
             items[0] = new JMenuItem("Render this Shape");
             items[0].setEnabled(false);
             items[1] = new JMenuItem("Render Settings");
             items[2] = new JMenuItem("Other Settings");
             items[2].setEnabled(false);
+            items[3] = new JMenuItem("About");
             items[0].addActionListener(new MenuItemHandler());
             items[1].addActionListener(new MenuItemHandler());
             items[2].addActionListener(new MenuItemHandler());
+            items[3].addActionListener(new MenuItemHandler());
             menus[0].add(items[0]);
+            menus[0].add(items[3]);
             menus[1].add(items[1]);
             menus[1].add(items[2]);
             bar.add(menus[0]);
@@ -345,6 +348,7 @@ public class Window extends JFrame{
      * Item0: Starts a new ShapeRenderWindow with the currentShape to render it
      * Item1: Starts a new ShapeSettingsWindow to manage the Render Settings
      * Item2: Starts a new OtherSettingsWindow (Coming Soon)
+     * Item3: Shows a short documentation about this Program
      */
 
     private class MenuItemHandler implements ActionListener {
@@ -353,12 +357,14 @@ public class Window extends JFrame{
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == items[0]) {
                 System.out.println("Starting Render Window...");
-                ShapeRenderWindow shapeRenderWindow = new ShapeRenderWindow(currentShape);
+                new ShapeRenderWindow(currentShape);
             } else if (e.getSource() == items[1]) {
                 System.out.println("Starting Render Settings Window...");
-                ShapeSettingsWindow shapeSettingsWindow = new ShapeSettingsWindow();
+                new ShapeSettingsWindow();
             } else if (e.getSource() == items[2]) {
                 //Coming Soon
+            } else if (e.getSource() == items[3]) {
+                new AboutWindow();
             }
         }
     }
