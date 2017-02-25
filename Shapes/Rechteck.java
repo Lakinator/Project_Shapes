@@ -29,15 +29,6 @@ public class Rechteck implements Shape {
 
     @Override
     public boolean handleCalculations() {
-        int setVars = 0;
-
-        if(width != 0) setVars++;
-        if(length != 0) setVars++;
-        if(umfang != 0) setVars++;
-        if(inhalt != 0) setVars++;
-        if(diagonale != 0) setVars++;
-
-        if(setVars < 2) return false;
 
         if (width != 0 && length != 0) {
             umfang = (2*width) + (2*length);
@@ -94,7 +85,7 @@ public class Rechteck implements Shape {
     }
 
     @Override
-    public void updateValues(final JTextArea[] textAreas) {
+    public void updateValues(JTextArea[] textAreas) {
         width = Double.parseDouble(textAreas[0].getText());
         length = Double.parseDouble(textAreas[1].getText());
         umfang = Double.parseDouble(textAreas[2].getText());
@@ -114,5 +105,10 @@ public class Rechteck implements Shape {
         umfang = 0;
         inhalt = 0;
         diagonale = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "{Breite: " + width + ", Länge: " + length + ", Umfang: " + umfang + ", Inhalt: " + inhalt + ", Diagonale: " + diagonale + "}";
     }
 }
