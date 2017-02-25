@@ -33,22 +33,27 @@ public class Dreieck implements Shape {
 
         if(alpha + beta + gamma > 180) return false;
 
-        //TODO: Alles berechnen
 
         if(a != 0 && b != 0) {
             if (alpha == 90) {
                 c = Math.sqrt((a*a) - (b*b));
 
+                beta = Math.toDegrees(Math.asin(b/a));
+                gamma = 180 - (alpha + beta);
+
                 return true;
             } else if (beta == 90) {
                 c = Math.sqrt((b*b) - (a*a));
 
-                alpha = Math.asin(a/c);
+                alpha = Math.toDegrees(Math.asin(a/c));
                 gamma = 180 - (alpha + beta);
 
                 return true;
             } else if (gamma == 90) {
                 c = Math.sqrt((a*a) + (b*b));
+
+                alpha = Math.toDegrees(Math.asin(a/c));
+                beta = 180 - (alpha + gamma);
 
                 return true;
             }
@@ -58,13 +63,22 @@ public class Dreieck implements Shape {
             if (alpha == 90) {
                 b = Math.sqrt((a*a) - (c*c));
 
+                beta = Math.toDegrees(Math.asin(b/a));
+                gamma = 180 - (alpha + beta);
+
                 return true;
             } else if (beta == 90) {
                 b = Math.sqrt((a*a) + (c*c));
 
+                alpha = Math.toDegrees(Math.asin(a/c));
+                gamma = 180 - (alpha + beta);
+
                 return true;
             } else if (gamma == 90) {
                 b = Math.sqrt((c*c) - (a*a));
+
+                alpha = Math.toDegrees(Math.asin(a/c));
+                beta = 180 - (alpha + gamma);
 
                 return true;
             }
@@ -74,13 +88,22 @@ public class Dreieck implements Shape {
             if (alpha == 90) {
                 a = Math.sqrt((b*b) + (c*c));
 
+                beta = Math.toDegrees(Math.asin(b/a));
+                gamma = 180 - (alpha + beta);
+
                 return true;
             } else if (beta == 90) {
                 a = Math.sqrt((b*b) - (c*c));
 
+                alpha = Math.toDegrees(Math.asin(a/c));
+                gamma = 180 - (alpha + beta);
+
                 return true;
             } else if (gamma == 90) {
                 a = Math.sqrt((c*c) - (b*b));
+
+                alpha = Math.toDegrees(Math.asin(a/c));
+                beta = 180 - (alpha + gamma);
 
                 return true;
             }
@@ -102,7 +125,7 @@ public class Dreieck implements Shape {
 
     @Override
     public String errorMsg() {
-        return "Ein Winkel muss 90 Grad sein, alle zusammen dürfen nicht größer als 180 Grad sein";
+        return "Es müssen 2 Seiten und ein Winkel mit 90 Grad gegeben sein. Die Hypotenuse muss dabei am größten sein";
     }
 
     @Override
