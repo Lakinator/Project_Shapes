@@ -1,5 +1,7 @@
 package Shapes;
 
+import javax.swing.JTextArea;
+
 /**
  * 22.02.2017
  * Created by user Schalk (Lukas Schalk).
@@ -7,8 +9,11 @@ package Shapes;
 
 public interface Shape {
 
-    public abstract ShapeType getType();
-    public abstract int getVarLength();
-    public abstract String[] getVarNames();
-    public abstract boolean handleCalculations();
+    ShapeType getType();
+    String[] getVarNames();
+    double[] getVariables();
+    boolean handleCalculations();
+    void resetAll();
+    void updateValues(final JTextArea[] textAreas);
+    String errorMsg();
 }
