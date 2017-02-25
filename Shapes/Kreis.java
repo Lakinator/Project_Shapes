@@ -9,7 +9,6 @@ import javax.swing.*;
 
 public class Kreis implements Shape {
     private final ShapeType type = ShapeType._2D;
-    private final static int varLength = 4;
     private double radius = 0, durchmesser = 0, umfang = 0, inhalt = 0;
 
     @Override
@@ -18,13 +17,13 @@ public class Kreis implements Shape {
     }
 
     @Override
-    public int getVarLength() {
-        return varLength;
+    public String[] getVarNames() {
+        return new String[]{"Radius", "Durchmesser", "Umfang", "Inhalt"};
     }
 
     @Override
-    public String[] getVarNames() {
-        return new String[]{"Radius", "Durchmesser", "Umfang", "Inhalt"};
+    public double[] getVariables() {
+        return new double[]{radius, durchmesser, umfang, inhalt};
     }
 
     @Override
@@ -62,49 +61,24 @@ public class Kreis implements Shape {
         return false;
     }
 
+    @Override
     public void updateValues(final JTextArea[] textAreas) {
-        setRadius( Double.parseDouble(textAreas[0].getText()) );
-        setDurchmesser( Double.parseDouble(textAreas[1].getText()) );
-        setUmfang( Double.parseDouble(textAreas[2].getText()) );
-        setInhalt( Double.parseDouble(textAreas[3].getText()) );
+        radius = Double.parseDouble(textAreas[0].getText());
+        durchmesser = Double.parseDouble(textAreas[1].getText());
+        umfang = Double.parseDouble(textAreas[2].getText());
+        inhalt = Double.parseDouble(textAreas[3].getText());
     }
 
+    @Override
+    public String errorMsg() {
+        return "Mindestens ein Parameter benötigt";
+    }
+
+    @Override
     public void resetAll() {
-        setRadius(0);
-        setDurchmesser(0);
-        setUmfang(0);
-        setInhalt(0);
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    public double getDurchmesser() {
-        return durchmesser;
-    }
-
-    public void setDurchmesser(double durchmesser) {
-        this.durchmesser = durchmesser;
-    }
-
-    public double getUmfang() {
-        return umfang;
-    }
-
-    public void setUmfang(double umfang) {
-        this.umfang = umfang;
-    }
-
-    public double getInhalt() {
-        return inhalt;
-    }
-
-    public void setInhalt(double inhalt) {
-        this.inhalt = inhalt;
+        radius = 0;
+        durchmesser = 0;
+        umfang = 0;
+        inhalt = 0;
     }
 }
