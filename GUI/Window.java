@@ -38,7 +38,7 @@ public class Window extends JFrame{
     /**
      * This String Array contains the available Types for the shapeTypeList ComboBox
      */
-    private String[] shapeTypeStrings = {"Shape2D", "Shape3D"};
+    private String[] shapeTypeStrings = {"2D", "3D"};
 
     /**
      * These Labels represent what Parameter in the attached Input Area is shown
@@ -122,6 +122,7 @@ public class Window extends JFrame{
             items[0].setEnabled(false);
             items[1] = new JMenuItem("Render Settings");
             items[2] = new JMenuItem("Other Settings");
+            items[2].setEnabled(false);
             items[0].addActionListener(new MenuItemHandler());
             items[1].addActionListener(new MenuItemHandler());
             items[2].addActionListener(new MenuItemHandler());
@@ -195,6 +196,9 @@ public class Window extends JFrame{
                 break;
             case "Kugel":
                 currentShape = new Kugel();
+                break;
+            case "Quader":
+                currentShape = new Quader();
                 break;
 
         }
@@ -285,10 +289,10 @@ public class Window extends JFrame{
         public void actionPerformed(ActionEvent e) {
             JComboBox comboBox = (JComboBox) e.getSource();
 
-            if(comboBox.getSelectedItem() == "Shape2D") {
+            if(comboBox.getSelectedItem() == "2D") {
                 changeShapeList("Rechteck", "Dreieck (Rechtwinklig)", "Kreis");
-            } else if(comboBox.getSelectedItem() == "Shape3D") {
-                changeShapeList("Kugel");
+            } else if(comboBox.getSelectedItem() == "3D") {
+                changeShapeList("Kugel", "Quader");
             } else {
                 try{
                     handleNewObject( (String) comboBox.getSelectedItem());
