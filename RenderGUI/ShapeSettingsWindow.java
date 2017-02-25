@@ -11,7 +11,7 @@ import java.awt.*;
 public class ShapeSettingsWindow {
     private JFrame jf;
     private JButton colorBtn;
-    static Color color = Color.RED;
+    static Color color = Color.CYAN;
 
     public ShapeSettingsWindow() {
         jf = new JFrame();
