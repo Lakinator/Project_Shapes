@@ -1,2 +1,2 @@
 # Project_Shapes
-A project that i about 2D and 3D shapes in Java
+A project that is about 2D and 3D shapes in Java
