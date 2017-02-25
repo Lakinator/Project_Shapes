@@ -1,6 +1,7 @@
 package GUI;
 
-import RenderGUI.ShapeRenderer;
+import RenderGUI.ShapeRenderWindow;
+import RenderGUI.ShapeSettingsWindow;
 import Shapes.*;
 
 import javax.swing.*;
@@ -46,7 +47,7 @@ public class Window extends JFrame{
     private JTextArea[] inputAreas = new JTextArea[6];
 
     /**
-     * This Shape always cntains the active selected Shape. It is accessed through casting it to a specific Shape (Will be changed in the future)
+     * This Shape always contains the active selected Shape.
      */
     private Shape currentShape;
 
@@ -54,13 +55,13 @@ public class Window extends JFrame{
      * The MenuBar with its components
      */
     private JMenuBar bar;
-    private JMenu menu1;
-    private JMenuItem item1;
+    private JMenu[] menus = new JMenu[2];
+    private JMenuItem[] items = new JMenuItem[3];
 
 
 
     public Window() {
-        setTitle("Project X");
+        setTitle("Project Shapes");
         setSize(400, 520);
         setLayout(null);
         setResizable(false);
@@ -115,11 +116,20 @@ public class Window extends JFrame{
 
             //Menu
             bar = new JMenuBar();
-            menu1 = new JMenu("Shape");
-            item1 = new JMenuItem("Render this Shape");
-            item1.addActionListener(new MenuItemHandler());
-            menu1.add(item1);
-            bar.add(menu1);
+            menus[0] = new JMenu("Shape");
+            menus[1] = new JMenu("Settings");
+            items[0] = new JMenuItem("Render this Shape");
+            items[0].setEnabled(false);
+            items[1] = new JMenuItem("Render Settings");
+            items[2] = new JMenuItem("Other Settings");
+            items[0].addActionListener(new MenuItemHandler());
+            items[1].addActionListener(new MenuItemHandler());
+            items[2].addActionListener(new MenuItemHandler());
+            menus[0].add(items[0]);
+            menus[1].add(items[1]);
+            menus[1].add(items[2]);
+            bar.add(menus[0]);
+            bar.add(menus[1]);
             setJMenuBar(bar);
 
             add(shapeTypeList);
@@ -190,6 +200,7 @@ public class Window extends JFrame{
         }
 
         updateInputAreas(currentShape);
+        items[0].setEnabled(false);
     }
 
     /**
@@ -217,7 +228,7 @@ public class Window extends JFrame{
 
     public void updateInputAreas(Shape s) {
         for (int i = 0; i < inputAreas.length; i++) {
-            if(i < s.getVarLength()) {
+            if(i < s.getVariables().length) {
                 inputAreas[i].setVisible(true);
                 inputAreas[i].setText("0.0");
                 inputAreaLabels[i].setText(s.getVarNames()[i]);
@@ -252,12 +263,10 @@ public class Window extends JFrame{
      *
      * @param s
      *        The Shape where the Calculation Error occurred
-     * @param Error
-     *        A specific Message that will be shown
      */
 
-    public void calculationErrorMsg(Shape s, String Error) {
-        System.err.println("[" + s.getClass().getName() + "] Fehler während der Berechnung: \"" + Error + "\"");
+    public void calculationErrorMsg(Shape s) {
+        System.err.println("[" + s.getClass().getName() + "] Fehler während der Berechnung: \"" + s.errorMsg() + "\"");
     }
 
 
@@ -294,82 +303,34 @@ public class Window extends JFrame{
 
     /**
      * This Buttonhandler handles the startBtn and resetBtn Events.
-     * It first looks which Shape is selected.
-     *  -> startBtn: It first updates the Values that were put into the Input Areas.
-     *               Then it calls the handleCalculation() Method from the Shape.
+     *  -> startBtn: It calls the handleCalculation() Method from the Shape.
      *               If it was successful, it sets the Input Areas to new calculated Values.
      *               If it wasn't successful, it prints an Error Message
-     *  -> resetBtn: It resets the the values inside the Shape and then sets the Input Areas to 0.0
+     *  -> resetBtn: It resets the the values inside the Shape and then sets all Input Areas to 0.0
      */
 
     private class ButtonHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            switch ( (String) shapeList.getSelectedItem()) {
-
-                case "Rechteck":
-                    if (e.getSource() == startBtn) {
-                        try{
-                            ((Rechteck)currentShape).updateValues(inputAreas);
-                            if (currentShape.handleCalculations()) setInputAreas(((Rechteck)currentShape).getWidth(), ((Rechteck)currentShape).getLength(), ((Rechteck)currentShape).getUmfang(), ((Rechteck)currentShape).getInhalt(), ((Rechteck)currentShape).getDiagonale());
-                            else calculationErrorMsg(currentShape, "Mindestens Länge oder Breite und Umfang, Inhalt oder Diagonale benötigt");
-                        } catch (Exception ex) {
-                            if (printAllErrors)ex.printStackTrace();
-                            System.err.println("Nur Zahlen erlaubt! (" + ex.toString() + ")");
-                        }
-                    } else if (e.getSource() == resetBtn) {
-                        ((Rechteck)currentShape).resetAll();
-                        setInputAreas(0.0, 0.0, 0.0, 0.0, 0.0);
+            if (e.getSource() == startBtn) {
+                try{
+                    currentShape.updateValues(inputAreas);
+                    if (currentShape.handleCalculations()) {
+                        setInputAreas(currentShape.getVariables());
+                        items[0].setEnabled(true);
                     }
-                    break;
-                case "Kreis":
-                    if (e.getSource() == startBtn) {
-                        try{
-                            ((Kreis)currentShape).updateValues(inputAreas);
-                            if ((currentShape).handleCalculations()) setInputAreas(((Kreis)currentShape).getRadius(), ((Kreis)currentShape).getDurchmesser(), ((Kreis)currentShape).getUmfang(), ((Kreis)currentShape).getInhalt());
-                            else calculationErrorMsg(currentShape, "Mindestens ein Parameter benötigt");
-                        } catch (Exception ex) {
-                            if (printAllErrors)ex.printStackTrace();
-                            System.err.println("Nur Zahlen erlaubt! (" + ex.toString() + ")");
-                        }
-                    } else if (e.getSource() == resetBtn) {
-                        ((Kreis)currentShape).resetAll();
-                        setInputAreas(0.0, 0.0, 0.0, 0.0, 0.0);
+                    else {
+                        calculationErrorMsg(currentShape);
+                        items[0].setEnabled(false);
                     }
-                    break;
-                case "Dreieck (Rechtwinklig)":
-                    if (e.getSource() == startBtn) {
-                        try{
-                            ((Dreieck)currentShape).updateValues(inputAreas);
-                            if ((currentShape).handleCalculations()) setInputAreas(((Dreieck)currentShape).getA(), ((Dreieck)currentShape).getB(), ((Dreieck)currentShape).getC(), ((Dreieck)currentShape).getAlpha(), ((Dreieck)currentShape).getBeta(), ((Dreieck)currentShape).getGamma());
-                            else calculationErrorMsg(currentShape, "Ein Winkel muss 90 Grad sein, alle zusammen dürfen nicht größer als 180 Grad sein");
-                        } catch (Exception ex) {
-                            if (printAllErrors)ex.printStackTrace();
-                            System.err.println("Nur Zahlen erlaubt! (" + ex.toString() + ")");
-                        }
-                    } else if (e.getSource() == resetBtn) {
-                        ((Dreieck)currentShape).resetAll();
-                        setInputAreas(0.0, 0.0, 0.0, 0.0, 0.0);
-                    }
-                    break;
-                case "Kugel":
-                    if (e.getSource() == startBtn) {
-                        try{
-                            ((Kugel)currentShape).updateValues(inputAreas);
-                            if (currentShape.handleCalculations()) setInputAreas(((Kugel)currentShape).getRadius(), ((Kugel)currentShape).getDurchmesser(), ((Kugel)currentShape).getVolumen(), ((Kugel)currentShape).getOberflaeche());
-                            else calculationErrorMsg(currentShape, "Mindestens ein Parameter benötigt");
-                        } catch (Exception ex) {
-                            if (printAllErrors)ex.printStackTrace();
-                            System.err.println("Nur Zahlen erlaubt! (" + ex.toString() + ")");
-                        }
-                    } else if (e.getSource() == resetBtn) {
-                        ((Kugel)currentShape).resetAll();
-                        setInputAreas(0.0, 0.0, 0.0, 0.0, 0.0);
-                    }
-                    break;
-
-
+                } catch (Exception ex) {
+                    if (printAllErrors)ex.printStackTrace();
+                    System.err.println("Nur Zahlen erlaubt! (" + ex.toString() + ")");
+                }
+            } else if (e.getSource() == resetBtn) {
+                currentShape.resetAll();
+                setInputAreas(currentShape.getVariables());
             }
 
         }
@@ -377,16 +338,23 @@ public class Window extends JFrame{
 
     /**
      * This MenuItemHandler handles the Input given to the MenuBar.
-     * Item1: Starts a new RenderWindow with the currentShape to render it
+     * Item0: Starts a new ShapeRenderWindow with the currentShape to render it
+     * Item1: Starts a new ShapeSettingsWindow to manage the Render Settings
+     * Item2: Starts a new OtherSettingsWindow (Coming Soon)
      */
 
     private class MenuItemHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == item1) {
+            if (e.getSource() == items[0]) {
                 System.out.println("Starting Render Window...");
-                RenderGUI.ShapeRenderer shapeRenderer = new ShapeRenderer(currentShape);
+                ShapeRenderWindow shapeRenderWindow = new ShapeRenderWindow(currentShape);
+            } else if (e.getSource() == items[1]) {
+                System.out.println("Starting Render Settings Window...");
+                ShapeSettingsWindow shapeSettingsWindow = new ShapeSettingsWindow();
+            } else if (e.getSource() == items[2]) {
+                //Coming Soon
             }
         }
     }
