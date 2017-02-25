@@ -1,8 +1,5 @@
 package RenderGUI;
 
-import Shapes.Kreis;
-import Shapes.Rechteck;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,10 +18,10 @@ class DrawPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.RED);
+        g.setColor(ShapeSettingsWindow.color);
 
-        if (drawRechteck) g.fillRect(10, 10, (int) ( (Rechteck) ShapeRenderer.renderShape).getLength(), (int) ( (Rechteck) ShapeRenderer.renderShape).getWidth());
-        if (drawKreis) g.fillOval(10, 10, (int) ( (Kreis) ShapeRenderer.renderShape).getRadius(), (int) ( (Kreis) ShapeRenderer.renderShape).getRadius());
+        if (drawRechteck) g.fillRect(10, 10, (int) ShapeRenderWindow.renderShape.getVariables()[1], (int) ShapeRenderWindow.renderShape.getVariables()[0]);
+        if (drawKreis) g.fillOval(10, 10, (int) ShapeRenderWindow.renderShape.getVariables()[0], (int) ShapeRenderWindow.renderShape.getVariables()[0]);
         if (drawDreieck) System.out.println("Coming Soon!");
         if (drawKugel) System.out.println("Coming Soon!");
     }
