@@ -26,7 +26,7 @@ public class ShapeRenderWindow {
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jf.setLocationRelativeTo(null);
 
-        System.out.println("Render Shape: " + renderShape.getClass().getName());
+        System.out.println("Render Shape: " + renderShape.getClass().getName() + "@" + renderShape.toString());
 
         dr = new DrawPanel();
         dr.setBounds(0, 0, width, height);
@@ -49,6 +49,9 @@ public class ShapeRenderWindow {
                 break;
             case "Shapes.Kugel":
                 dr.drawKugel = true;
+                break;
+            case "Shapes.Rechteck3D":
+                dr.draw3DRechteck = true;
                 break;
         }
 
