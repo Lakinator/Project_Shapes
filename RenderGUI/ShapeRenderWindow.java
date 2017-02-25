@@ -50,7 +50,7 @@ public class ShapeRenderWindow {
             case "Shapes.Kugel":
                 dr.drawKugel = true;
                 break;
-            case "Shapes.Rechteck3D":
+            case "Shapes.Quader":
                 dr.draw3DRechteck = true;
                 break;
         }
