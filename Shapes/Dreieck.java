@@ -11,7 +11,6 @@ public class Dreieck implements Shape {
     /** !! Rechtwinkliges Dreieck !! **/
 
     private final ShapeType type = ShapeType._2D;
-    private final static int varLength = 6;
     private double a = 0, b = 0, c = 0, alpha = 0, beta = 0, gamma = 0;
 
     @Override
@@ -20,13 +19,13 @@ public class Dreieck implements Shape {
     }
 
     @Override
-    public int getVarLength() {
-        return varLength;
+    public String[] getVarNames() {
+        return new String[]{"Seite a", "Seite b", "Seite c", "Winkel Alpha", "Winkel Beta", "Winkel Gamma"};
     }
 
     @Override
-    public String[] getVarNames() {
-        return new String[]{"Seite a", "Seite b", "Seite c", "Winkel Alpha", "Winkel Beta", "Winkel Gamma"};
+    public double[] getVariables() {
+        return new double[]{a, b, c, alpha, beta, gamma};
     }
 
     @Override
@@ -91,71 +90,28 @@ public class Dreieck implements Shape {
         return false;
     }
 
-
+    @Override
     public void updateValues(final JTextArea[] textAreas) {
-        setA( Double.parseDouble(textAreas[0].getText()) );
-        setB( Double.parseDouble(textAreas[1].getText()) );
-        setC( Double.parseDouble(textAreas[2].getText()) );
-        setAlpha( Double.parseDouble(textAreas[3].getText()) );
-        setBeta( Double.parseDouble(textAreas[4].getText()) );
-        setGamma( Double.parseDouble(textAreas[5].getText()) );
+        a = Double.parseDouble(textAreas[0].getText());
+        b = Double.parseDouble(textAreas[1].getText());
+        c = Double.parseDouble(textAreas[2].getText());
+        alpha = Double.parseDouble(textAreas[3].getText());
+        beta = Double.parseDouble(textAreas[4].getText());
+        gamma = Double.parseDouble(textAreas[5].getText());
     }
 
+    @Override
+    public String errorMsg() {
+        return "Ein Winkel muss 90 Grad sein, alle zusammen dürfen nicht größer als 180 Grad sein";
+    }
+
+    @Override
     public void resetAll() {
-        setA(0);
-        setB(0);
-        setC(0);
-        setAlpha(0);
-        setBeta(0);
-        setGamma(0);
-    }
-
-
-    public double getA() {
-        return a;
-    }
-
-    public void setA(double a) {
-        this.a = a;
-    }
-
-    public double getB() {
-        return b;
-    }
-
-    public void setB(double b) {
-        this.b = b;
-    }
-
-    public double getC() {
-        return c;
-    }
-
-    public void setC(double c) {
-        this.c = c;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    public double getBeta() {
-        return beta;
-    }
-
-    public void setBeta(double beta) {
-        this.beta = beta;
-    }
-
-    public double getGamma() {
-        return gamma;
-    }
-
-    public void setGamma(double gamma) {
-        this.gamma = gamma;
+        a = 0;
+        b = 0;
+        c = 0;
+        alpha = 0;
+        beta = 0;
+        gamma = 0;
     }
 }
