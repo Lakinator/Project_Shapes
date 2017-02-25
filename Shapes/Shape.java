@@ -14,6 +14,6 @@ public interface Shape {
     double[] getVariables();
     boolean handleCalculations();
     void resetAll();
-    void updateValues(final JTextArea[] textAreas);
+    void updateValues(JTextArea[] textAreas);
     String errorMsg();
 }
