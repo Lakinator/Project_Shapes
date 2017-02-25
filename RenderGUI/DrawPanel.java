@@ -13,6 +13,7 @@ class DrawPanel extends JPanel {
     boolean drawKreis = false;
     boolean drawDreieck = false;
     boolean drawKugel = false;
+    boolean draw3DRechteck = false;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -77,5 +78,6 @@ class DrawPanel extends JPanel {
             g2d.drawString(point3, x3-5, y3+5);
         }
         if (drawKugel) System.out.println("Coming Soon!");
+        if (draw3DRechteck) g2d.fill3DRect(20, 20, (int) ShapeRenderWindow.renderShape.getVariables()[1], (int) ShapeRenderWindow.renderShape.getVariables()[2], true);
     }
 }
