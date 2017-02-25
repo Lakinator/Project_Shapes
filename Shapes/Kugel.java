@@ -9,7 +9,6 @@ import javax.swing.*;
 
 public class Kugel implements Shape {
     private final ShapeType type = ShapeType._3D;
-    private final static int varLength = 4;
     private double radius = 0, durchmesser = 0, volumen = 0, oberflaeche = 0;
 
     @Override
@@ -18,13 +17,13 @@ public class Kugel implements Shape {
     }
 
     @Override
-    public int getVarLength() {
-        return varLength;
+    public String[] getVarNames() {
+        return new String[]{"Radius", "Durchmesser", "Volumen", "Oberfläche"};
     }
 
     @Override
-    public String[] getVarNames() {
-        return new String[]{"Radius", "Durchmesser", "Volumen", "Oberfläche"};
+    public double[] getVariables() {
+        return new double[]{radius, durchmesser, volumen, oberflaeche};
     }
 
     @Override
@@ -65,48 +64,21 @@ public class Kugel implements Shape {
 
 
     public void updateValues(final JTextArea[] textAreas) {
-        setRadius( Double.parseDouble(textAreas[0].getText()) );
-        setDurchmesser( Double.parseDouble(textAreas[1].getText()) );
-        setVolumen( Double.parseDouble(textAreas[2].getText()) );
-        setOberflaeche( Double.parseDouble(textAreas[3].getText()) );
+        radius = Double.parseDouble(textAreas[0].getText());
+        durchmesser = Double.parseDouble(textAreas[1].getText());
+        volumen = Double.parseDouble(textAreas[2].getText());
+        oberflaeche = Double.parseDouble(textAreas[3].getText());
+    }
+
+    @Override
+    public String errorMsg() {
+        return "Mindestens ein Parameter benötigt";
     }
 
     public void resetAll() {
-        setRadius(0);
-        setDurchmesser(0);
-        setVolumen(0);
-        setOberflaeche(0);
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    public double getDurchmesser() {
-        return durchmesser;
-    }
-
-    public void setDurchmesser(double durchmesser) {
-        this.durchmesser = durchmesser;
-    }
-
-    public double getVolumen() {
-        return volumen;
-    }
-
-    public void setVolumen(double volumen) {
-        this.volumen = volumen;
-    }
-
-    public double getOberflaeche() {
-        return oberflaeche;
-    }
-
-    public void setOberflaeche(double oberflaeche) {
-        this.oberflaeche = oberflaeche;
+        radius = 0;
+        durchmesser = 0;
+        volumen = 0;
+        oberflaeche = 0;
     }
 }
